@@ -3,19 +3,20 @@ import config
 from ext import db,mail
 from blueprints import user_bp,qa_bp
 from flask_migrate import Migrate
+from flask_wtf.csrf import CSRFProtect
 
+csrf = CSRFProtect()
 
 app = Flask(__name__)
 app.config.from_object(config)
-# app.config['SQLALCHEMY_DATABASE_URI'] = config.DB_URI
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 mail.init_app(app)
+csrf.init_app(app)
 
 app.register_blueprint(user_bp)
 app.register_blueprint(qa_bp)
 
-migrate = Migrate(app,db)
+migrate = Migrate(app, db)
 
 
 @app.route('/')

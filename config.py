@@ -22,5 +22,6 @@ MAIL_PASSWORD = 'pkmjyzfjqozdbfdf'
 MAIL_PORT = 465
 
 SECRET_KEY = 'CCJ'
+DEBUG = True
 
 

@@ -1,0 +1,10 @@
+遇到的問題？
+1、The CSRF token is missing.
+解決辦法：
+在app.py导入并进行初始化：
+from flask_wtf.csrf import CSRFProtect
+csrf = CSRFProtect()
+csrf.init_app(app)
+
+在对应网页表单中增加：
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
