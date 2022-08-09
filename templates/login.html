@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}登錄{% endblock %}
+{% block head %}{% endblock %}
+{% block body %}
+    <div class="row">
+    <div class="col"></div>
+    <div class="col">
+        <form>
+  <div class="form-group">
+    <label for="exampleInputEmail1">郵箱</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+    <small id="emailHelp" class="form-text text-muted">我們不會把你的郵箱分享給別人</small>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">密碼</label>
+    <input type="password" class="form-control" id="exampleInputPassword1">
+  </div>
+  <div class="form-group form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+    <label class="form-check-label" for="exampleCheck1">記住我</label>
+  </div>
+  <button type="submit" class="btn btn-primary btn-block">登錄</button>
+</form>
+    </div>
+    <div class="col"></div>
+    </div>
+
+{% endblock %}

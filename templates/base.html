@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}
+    
+    {% endblock %}</title>
+    <link rel="stylesheet" href={{ url_for('static',filename="bootstrap/bootstrap.4.6.1.min.css") }}>
+    {% block head %} {% endblock %}
+</head>
+<body>
+<div class="container">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">FlaskDemo</a>
+
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">首頁 <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">發佈問答</a>
+                </li>
+                <li class="nav-item ml-4">
+                    <form class="form-inline">
+                        <input class="form-control mr-sm-2" type="search" placeholder="關鍵字" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
+                    </form>
+                </li>
+
+            </ul>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href={{ url_for("user.login") }}>登錄 <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href={{ url_for("user.register") }}>注冊</a>
+                </li>
+
+            </ul>
+        </div>
+
+
+    </nav>
+</div>
+<div class="container">
+    {% block body %}
+    {% endblock %}
+</div>
+</body>
+</html>
