@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
 
 {% block title %}注冊{% endblock %}
-{% block head %}{% endblock %}
+{% block head %}
+<script src={{ url_for('static',filename="jquery/jquery-3.6.0.min.js") }}></script>
+<script src={{ url_for('static',filename="js/register.js") }}></script>
+{% endblock %}
+
+
 {% block body %}
     <div class="row">
         <div class="col"></div>
@@ -21,7 +26,7 @@
                     <div class="input-group">
                     <input type="text" class="form-control" name="captcha">
                       <div class="input-group-append">
-                          <button class="btn btn-outline-secondary" type="button">发送验证码</button></div>
+                          <button class="btn btn-outline-secondary" type="button" id="btn-send">发送验证码</button></div>
                 </div>
 
                 </div>

@@ -1,11 +1,9 @@
 from flask import Flask
 import config
-from ext import db,mail
+from ext import db,mail,csrf
 from blueprints import user_bp,qa_bp
 from flask_migrate import Migrate
-from flask_wtf.csrf import CSRFProtect
 
-csrf = CSRFProtect()
 
 app = Flask(__name__)
 app.config.from_object(config)

@@ -8,3 +8,6 @@ csrf.init_app(app)
 
 在对应网页表单中增加：
 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+
+2、js中ajax请求出现400：
+https://stackoverflow.com/questions/22854749/flask-and-ajax-post-http-400-bad-request-error
