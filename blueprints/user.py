@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, jsonify,flash
 from flask_mail import Message
 
 from ext import mail, db,csrf
@@ -19,9 +19,10 @@ def login():
         login_form = LoginForm(request.form)
         if login_form.validate():
             print("验证通过")
-            return render_template('index.html')
+            return redirect("/")
         else:
             print("验证失败", login_form.errors)
+            flash("邮箱或密码不正确")
             return redirect(url_for("user.login"))
 
 

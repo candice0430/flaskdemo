@@ -1,4 +1,5 @@
 from flask_wtf import FlaskForm
+from flask import session
 from wtforms import StringField
 from wtforms.validators import length, InputRequired, equal_to, email, DataRequired, ValidationError
 from ext import db
@@ -51,8 +52,8 @@ class LoginForm(FlaskForm):
         if user_model:
             if not check_password_hash(user_model.password,pwd.data):
                 print("user_model.password:",user_model.password)
-                # print("p1:",p1)
                 raise ValidationError("密码错误")
+        session['user_id'] = user_model.id
 
 
 

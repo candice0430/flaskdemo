@@ -1,9 +1,9 @@
-from flask import Flask
+from flask import Flask, g, session, url_for, redirect
 import config
-from ext import db,mail,csrf
-from blueprints import user_bp,qa_bp
+from ext import db, mail, csrf
+from blueprints import user_bp, qa_bp
 from flask_migrate import Migrate
-
+from models import UserModel
 
 app = Flask(__name__)
 app.config.from_object(config)
@@ -17,13 +17,22 @@ app.register_blueprint(qa_bp)
 migrate = Migrate(app, db)
 
 
-@app.route('/')
-def hello_world():  # put application's code here
-    engine = db.get_engine()
-    with engine.connect() as conn:
-        res = conn.execute("select 1")
-        print(res)
-        return "hhhh"
+@app.before_request
+def before_request():
+    user_id = session.get('user_id')
+    if user_id:
+        try:
+            user = UserModel.query.get(user_id)
+            g.user = user
+        except:
+            g.user = None
+
+
+@app.context_processor
+def context_processor():
+    if hasattr(g, 'user'):
+        return {"user": g.user}
+    return {}
 
 
 if __name__ == '__main__':
