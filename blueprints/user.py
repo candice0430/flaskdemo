@@ -1,7 +1,7 @@
-from flask import Blueprint, render_template, request, redirect, url_for, jsonify,flash
+from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash, session
 from flask_mail import Message
 
-from ext import mail, db,csrf
+from ext import mail, db, csrf
 from utils import utils
 from models import EmailCapatureModel, UserModel
 import datetime
@@ -24,6 +24,11 @@ def login():
             print("验证失败", login_form.errors)
             flash("邮箱或密码不正确")
             return redirect(url_for("user.login"))
+
+@bp.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for("user.login"))
 
 
 @bp.route('/register', methods=["GET", "POST"])
@@ -59,7 +64,7 @@ def my_mail():
         mail.send(msg)
 
         capture_model = EmailCapatureModel.query.filter_by(email=email).first()
-        print("capture_model:",capture_model)
+        print("capture_model:", capture_model)
         if capture_model:
             capture_model.captcha = captcha
             capture_model.create_time = datetime.datetime.now()
