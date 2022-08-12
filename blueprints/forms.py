@@ -1,18 +1,17 @@
 from flask_wtf import FlaskForm
 from flask import session
-from wtforms import StringField
+from wtforms import StringField, PasswordField, TextAreaField
 from wtforms.validators import length, InputRequired, equal_to, email, DataRequired, ValidationError
-from ext import db
-from models import UserModel,EmailCapatureModel
-from werkzeug.security import generate_password_hash,check_password_hash
+from models import UserModel, EmailCapatureModel
+from werkzeug.security import check_password_hash
 
 
 class RegisterForm(FlaskForm):
-    username = StringField("username", validators=[DataRequired(), length(min=6,max=20)])
+    username = StringField("username", validators=[DataRequired(), length(min=6, max=20)])
     email = StringField("email", validators=[DataRequired(), email()])
-    password = StringField(validators=[InputRequired(),length(min=6,max=20)])
-    password_confirm = StringField(validators=[InputRequired(), equal_to('password', message='Passwords must match')])
-    captcha = StringField("captcha", validators=[length(min=4,max=4)])
+    password = PasswordField(validators=[InputRequired(), length(min=6, max=20)])
+    password_confirm = PasswordField(validators=[InputRequired(), equal_to('password', message='Passwords must match')])
+    captcha = StringField("captcha", validators=[length(min=4, max=4)])
 
     def validate_username(self, field):
         if len(field.data) < 6:
@@ -38,7 +37,7 @@ class RegisterForm(FlaskForm):
 
 class LoginForm(FlaskForm):
     email = StringField("email", validators=[InputRequired(), email()])
-    password = StringField(validators=[InputRequired(), length(min=6, max=20)])
+    password = PasswordField(validators=[InputRequired(), length(min=6, max=20)])
 
     def validate_email(self, field):
         e1 = UserModel.query.filter_by(email=field.data).first()
@@ -50,10 +49,12 @@ class LoginForm(FlaskForm):
         email = self.email.data
         user_model = UserModel.query.filter_by(email=email).first()
         if user_model:
-            if not check_password_hash(user_model.password,pwd.data):
-                print("user_model.password:",user_model.password)
+            if not check_password_hash(user_model.password, pwd.data):
+                print("user_model.password:", user_model.password)
                 raise ValidationError("密码错误")
-        session['user_id'] = user_model.id
+            session['user_id'] = user_model.id
 
 
-
+class QAForm(FlaskForm):
+    title = StringField(validators=[InputRequired(), length(min=3, max=100)])
+    content = TextAreaField(validators=[InputRequired(), length(min=3, max=1000)])
