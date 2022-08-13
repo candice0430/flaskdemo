@@ -1,5 +1,41 @@
 {% extends 'base.html' %}
 
 {% block title %}flaskDemo{% endblock %}
-{% block head %}{% endblock %}
-{% block body %}首页{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for("static",filename="css/index.css") }}">
+{% endblock %}
+{% block body %}
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-8">
+            <ul class="question-ul">
+                {% for article in articles %}
+                    <li>
+                        <div class="slide-question">
+                            <img class="side-question-avatar" src="{{ url_for("static",filename="images/avtar.jpeg") }}"
+                                 alt="">
+                        </div>
+                        <div class="question-main">
+                            <div class="question-title"><a href={{ url_for('qa.question',question_id=article.id) }}>{{ article.title }}</a></div>
+                            <div class="question-content"> {{ article.content }} </div>
+                            <div class="question-detail">
+                                <div class="question-author">{{ article.author.username }}</div>
+                                <div class="question-author">{{ article.create_time }}</div>
+                            </div>
+
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+
+
+        </div>
+        <div class="col"></div>
+    </div>
+
+
+
+
+
+
+{% endblock %}

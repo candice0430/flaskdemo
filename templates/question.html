@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}问答详情{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for("static",filename="css/index.css") }}">
+    <link rel="stylesheet" href="{{ url_for("static",filename="bootstrap/bootstrap.4.6.1.min.css") }}">
+{% endblock %}
+{% block body %}
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-8">
+            <h3 class="page-title">{{ question.title }}</h3>
+            <p class="question-info">
+                <span>作者：{{ question.author.username }}</span>
+                <span>时间：{{ question.create_time }}</span>
+            </p>
+            <div class="question-content">
+                {{ question.content }}
+            </div>
+            {% for comment in question.comments %}
+                <li>
+                    <div class="slide-question">
+                        <img class="side-question-avatar" src="{{ url_for("static",filename="images/avtar.jpeg") }}"
+                             alt="">
+                    </div>
+                    <div class="question-main">
+                        <div class="question-content"> {{ comment.content }} </div>
+                        <div class="question-detail">
+                            <div class="question-author">{{ comment.author.username }}</div>
+                            <div class="question-author">{{ comment.create_time }}</div>
+                        </div>
+
+                    </div>
+                </li>
+            {% endfor %}
+            <form method="post" action={{ url_for("qa.comment",question_id=question.id) }}>
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">评论</label>
+                    <textarea type="email" class="form-control" name="comment"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">发布</button>
+            </form>
+            </p>
+        </div>
+        <div class="col"></div>
+    </div>
+{% endblock %}

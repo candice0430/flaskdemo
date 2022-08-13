@@ -58,3 +58,7 @@ class LoginForm(FlaskForm):
 class QAForm(FlaskForm):
     title = StringField(validators=[InputRequired(), length(min=3, max=100)])
     content = TextAreaField(validators=[InputRequired(), length(min=3, max=1000)])
+
+
+class CommentForm(FlaskForm):
+    comment = TextAreaField(validators=[InputRequired(), length(min=3, max=1000)])

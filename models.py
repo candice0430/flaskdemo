@@ -27,3 +27,14 @@ class QuestionModel(db.Model):
     author_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     author = db.relationship('UserModel', backref=db.backref('articles'))
     create_time = db.Column(db.DateTime, default=datetime.now)
+
+
+class CommentModel(db.Model):
+    __tablename__ = 'comment'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    content = db.Column(db.Text(1000), unique=False, nullable=False)
+    author_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    question_id = db.Column(db.Integer, db.ForeignKey("question.id"))
+    author = db.relationship('UserModel', backref=db.backref('comments'))
+    qa = db.relationship('QuestionModel', backref=db.backref('comments'))
+    create_time = db.Column(db.DateTime, default=datetime.now)
