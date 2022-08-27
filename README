@@ -1,13 +1,49 @@
-遇到的問題？
+运行：
+-执行flask db init
+-执行flask db migrate
+-执行flask db upgrade
+-执行flask run
+
+遇到的问题？
 1、The CSRF token is missing.
-解決辦法：
-在app.py导入并进行初始化：
+解决办法：
+-在app.py导入并进行初始化：
 from flask_wtf.csrf import CSRFProtect
 csrf = CSRFProtect()
 csrf.init_app(app)
-
-在对应网页表单中增加：
+-在表单中增加请求：
 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 
 2、js中ajax请求出现400：
 https://stackoverflow.com/questions/22854749/flask-and-ajax-post-http-400-bad-request-error
+
+3.ERROR [flask_migrate] Error: Can't locate revision identified by 'd1651518c9b4'
+delete from alembic_version; in mysql shell
+
+4.数据库密码忘记了。(https://blog.csdn.net/weixin_43999327/article/details/120798619)
+**注意：一定要注意自己的mysql版本问题，我的是80版本，一些50版本的命令在80这是失效的**
+-net stop mysql80（这里需要注意自己的mysql版本）
+-若mysql没有配置到环境变量则切换到mysqld.exe的安装目录（如我的目录：D:\Program Files\MySQL\MySQL Server 5.7\bin）
+-跳过密码验证，执行：
+mysqld --console --skip-grant-tables --shared-memory
+mysqld -nt --skip-grant-tables
+-在新的cmd窗口：
+执行mysql(以无账号密码方式登录MySQL)；
+修改密码：set password for root@localhost='admin';
+刷新权限：flush privileges;
+
+5.Navicat Premium连接MySQL报错：error 2059: Authentication plugin 'caching_sha2_password' cannot be loaded(https://blog.csdn.net/weixin_46439193/article/details/105256146)
+-加密规则改回mysql_native_password，顺便还可以修改个密码，执行：
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '123456'
+**注意：这里不仅改了加密规则，还改了密码。一开始在这里踩了个坑，不知道自己把密码都改了！！！导致虽然不报加密规则错误，但是报错：密码错误**
+
+6.sqlalchemy.exc.OperationalError: (pymysql.err.OperationalError) (2003, "Can't connect to MySQL server on 'iou@127.0.0.1' ([Errno 11003] getaddrinfo failed)")
+这个问题有点坑，是数据库密码里包含了@符号
+MYSQL_DATABASE_PASSWORD = '123456@iou'
+DB_URI='mysql+pymysql://{}:{}@{}:{}/{}'.format(MYSQL_DATABASE_USER,MYSQL_DATABASE_PASSWORD, MYSQL_DATABASE_HOST, MYSQL_DATABASE_PORT,MYSQL_DATABASE_DB)-》mysql+pymysql://root:123456@iou@127.0.0.1:3306/test_py_db
+
+DB_RUI没有对@进行转义；最后解决方式是简单粗暴的改了数据库密码，去掉@
+
+
+
+
